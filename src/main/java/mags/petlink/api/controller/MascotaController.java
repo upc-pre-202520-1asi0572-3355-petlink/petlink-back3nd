@@ -38,7 +38,7 @@ public class MascotaController {
                 .toList();
         return ResponseEntity.ok(mascotas);
     }
-    
+
     @PostMapping
     public ResponseEntity<MascotaResponse> crearMascota(@RequestBody MascotaCreateRequest request) {
         String textoHora = request.horaIngresa();
@@ -68,9 +68,13 @@ public class MascotaController {
         Mascota mascota = mascotaService.obtenerMascota(id);
         List<Integer> lastSix = mascotaService.obtenerUltimosSeisBpm(id);
 
-        Integer currentHeartRate = lastSix.isEmpty()
-                ? null
-                : lastSix.get(lastSix.size() - 1);
+        Integer currentHeartRate;
+        if( lastSix.isEmpty()){
+            currentHeartRate = null;
+        } else {
+            currentHeartRate = lastSix.get(lastSix.size() - 1);
+        }
+        
 
         MascotaMonitorResponse response = new MascotaMonitorResponse(
                 mascota.getNombre(),

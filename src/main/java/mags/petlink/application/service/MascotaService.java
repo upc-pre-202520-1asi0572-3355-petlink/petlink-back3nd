@@ -27,14 +27,15 @@ public class MascotaService {
     private final HistorialLatidosRepository historialLatidosRepository;
 
     public MascotaService(MascotaRepository mascotaRepository,
-                          CollarRepository collarRepository,
-                          HistorialLatidosRepository historialLatidosRepository) {
+            CollarRepository collarRepository,
+            HistorialLatidosRepository historialLatidosRepository) {
         this.mascotaRepository = mascotaRepository;
         this.collarRepository = collarRepository;
         this.historialLatidosRepository = historialLatidosRepository;
     }
 
-    public Mascota crearMascota(String nombre, String especie, Integer edad, EstadoSalud estadoSalud, String raza, LocalTime horaIngresa) {
+    public Mascota crearMascota(String nombre, String especie, Integer edad, EstadoSalud estadoSalud, String raza,
+            LocalTime horaIngresa) {
 
         Mascota mascota = Mascota.builder()
                 .nombre(nombre)
@@ -61,8 +62,7 @@ public class MascotaService {
     public List<Integer> obtenerUltimosSeisBpm(Long mascotaId) {
         Mascota mascota = obtenerMascota(mascotaId);
 
-        List<HistorialLatidos> registrosDesc =
-                historialLatidosRepository.findTop6ByMascotaOrderByTiempoDesc(mascota);
+        List<HistorialLatidos> registrosDesc = historialLatidosRepository.findTop6ByMascotaOrderByTiempoDesc(mascota);
 
         return registrosDesc.stream()
                 .sorted(Comparator.comparing(HistorialLatidos::getTiempo))
@@ -105,7 +105,10 @@ public class MascotaService {
         return mascotaRepository.save(mascota);
     }
 
-     public List<Mascota> listarTodas() {
+    public List<Mascota> listarTodas() {
         return mascotaRepository.findAll();
     }
+
+    
+
 }
